@@ -128,6 +128,12 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Celery configuration
+
+# Broker URL from where celery will take the tasks
+CELERY_BROKER_URL = 'redis://redis:6379'
+
+
 # Configuration for Django Rest Framework
 
 REST_FRAMEWORK = {
