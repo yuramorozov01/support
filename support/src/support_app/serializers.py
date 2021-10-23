@@ -12,7 +12,7 @@ class TicketCreateSerializer(serializers.ModelSerializer):
         extra_kwargs = {'author': {'default': serializers.CurrentUserDefault()}}
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer):
     '''Serializer for an user'''
 
     class Meta:
@@ -24,7 +24,7 @@ class TicketDetailsSerializer(serializers.ModelSerializer):
     '''Serializer for a specified ticket'''
 
     status = serializers.CharField(source='get_status_display')
-    author = UserSerializer(read_only=True)
+    author = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Ticket
@@ -35,7 +35,7 @@ class TicketListSerializer(serializers.ModelSerializer):
     '''Serializer for a list of tickets'''
 
     status = serializers.CharField(source='get_status_display')
-    author = UserSerializer(read_only=True)
+    author = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Ticket
