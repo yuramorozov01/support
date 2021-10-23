@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
 class Ticket(models.Model):
     '''Ticket Model
@@ -43,7 +42,13 @@ class Message(models.Model):
     text = models.TextField('Message', max_length=8192)
     created_at = models.DateTimeField('Message time', auto_now_add=True)
     author = models.ForeignKey(User, verbose_name='Author', on_delete=models.CASCADE, related_name='messages')
-    parent = models.ForeignKey('self', verbose_name='parent', on_delete=models.SET_NULL, null=True, related_name='children')
+    parent = models.ForeignKey(
+        'self', 
+        verbose_name='parent', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        related_name='children'
+    )
 
     def __str__(self):
         return '{}: {}'.format(self.author, self.text)
