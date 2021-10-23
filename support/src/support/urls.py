@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .yasg import urlpatterns as doc_urls
+
 urlpatterns = [
-	path('api/', include('support_app.urls')),
-	path('auth/', include('djoser.urls')),
-	path('auth/', include('djoser.urls.jwt')),
+    path('api/v1/', include('support_app.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += doc_urls
