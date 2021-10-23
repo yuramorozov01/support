@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Ticket, Message
+
+from .models import Message, Ticket
 
 # Register your models here.
 
