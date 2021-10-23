@@ -29,3 +29,14 @@ class TicketDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+
+
+class TicketListSerializer(serializers.ModelSerializer):
+    '''Serializer for a list of tickets'''
+
+    status = serializers.CharField(source='get_status_display')
+    author = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Ticket
+        fields = '__all__'
