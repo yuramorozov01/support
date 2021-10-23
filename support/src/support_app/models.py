@@ -39,7 +39,7 @@ class Message(models.Model):
     First message in ticket doesn't have a parent message.
     '''
 
-    ticket = models.ForeignKey(Ticket, verbose_name='Ticker', on_delete=models.CASCADE, related_name='messages')
+    ticket = models.ForeignKey(Ticket, verbose_name='Ticket', on_delete=models.CASCADE, related_name='messages')
     text = models.TextField('Message', max_length=8192)
     created_at = models.DateTimeField('Message time', auto_now_add=True)
     author = models.ForeignKey(User, verbose_name='Author', on_delete=models.CASCADE, related_name='messages')
