@@ -14,6 +14,9 @@ class TicketViewSet(viewsets.ModelViewSet):
     list:
         Return a list of all user's tickets.
 
+    destroy:
+        Delete a ticket.
+
     '''
 
     permission_classes = [permissions.IsAuthenticated]
@@ -22,6 +25,8 @@ class TicketViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return Ticket.objects.all().filter(author=self.request.user)
         elif self.action == 'list':
+            return Ticket.objects.all().filter(author=self.request.user)
+        elif self.action == 'destroy':
             return Ticket.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
