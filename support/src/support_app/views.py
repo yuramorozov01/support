@@ -59,6 +59,16 @@ class MessageViewSet(viewsets.ModelViewSet):
     create:
         Create a new message.
 
+    retrieve:
+        Return the specified message.
+
+    list:
+        Return a list of all user's message.
+
+    destroy:
+        Delete a message.
+        Only author can delete his message.
+
     '''
 
     permission_classes = [permissions.IsAuthenticated]
@@ -67,6 +77,8 @@ class MessageViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return Message.objects.all().filter(author=self.request.user)
         elif self.action == 'list':
+            return Message.objects.all().filter(author=self.request.user)
+        elif self.action == 'destroy':
             return Message.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
