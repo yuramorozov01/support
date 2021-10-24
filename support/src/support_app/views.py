@@ -1,6 +1,6 @@
 from rest_framework import permissions, viewsets
 from .models import Message, Ticket
-from .serializers import TicketCreateSerializer, TicketDetailsSerializer, TicketListSerializer
+from .serializers import TicketCreateSerializer, TicketDetailsSerializer, TicketListSerializer, TicketUpdateSerializer
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -18,6 +18,13 @@ class TicketViewSet(viewsets.ModelViewSet):
         Delete a ticket.
         Only author can delete this ticket.
 
+    update:
+        Update a ticket.
+        Author can change all exclude status.
+
+    partial_update:
+        Update a ticket.
+        Author can change all exclude status.
     '''
 
     permission_classes = [permissions.IsAuthenticated]
@@ -29,6 +36,10 @@ class TicketViewSet(viewsets.ModelViewSet):
             return Ticket.objects.all().filter(author=self.request.user)
         elif self.action == 'destroy':
             return Ticket.objects.all().filter(author=self.request.user)
+        elif self.action == 'update':
+            return Ticket.objects.all().filter(author=self.request.user)
+        elif self.action == 'partial_update':
+            return Ticket.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -37,3 +48,7 @@ class TicketViewSet(viewsets.ModelViewSet):
             return TicketDetailsSerializer
         elif self.action == 'list':
             return TicketListSerializer
+        elif self.action == 'update':
+            return TicketUpdateSerializer
+        elif self.action == 'partial_update':
+            return TicketUpdateSerializer
