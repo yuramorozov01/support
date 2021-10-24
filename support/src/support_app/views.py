@@ -1,6 +1,10 @@
 from rest_framework import permissions, viewsets
+
 from .models import Message, Ticket
-from .serializers import MessageCreateSerializer, MessageDetailsSerializer, MessageShortDetailsSerializer, TicketCreateSerializer, TicketDetailsSerializer, TicketShortDetailsSerializer, TicketUpdateSerializer
+from .serializers import (MessageCreateSerializer, MessageDetailsSerializer,
+                          MessageShortDetailsSerializer,
+                          TicketCreateSerializer, TicketDetailsSerializer,
+                          TicketShortDetailsSerializer, TicketUpdateSerializer)
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -102,4 +106,3 @@ class MessageViewSet(viewsets.ModelViewSet):
             return MessageCreateSerializer
         elif self.action == 'partial_update':
             return MessageCreateSerializer
-        
