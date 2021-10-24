@@ -16,6 +16,7 @@ class TicketViewSet(viewsets.ModelViewSet):
 
     destroy:
         Delete a ticket.
+        Only author can delete this ticket.
 
     '''
 
