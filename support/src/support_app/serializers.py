@@ -56,3 +56,22 @@ class TicketListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+
+
+class MessageCreateSerializer(serializers.ModelSerializer):
+    '''Serializer for creating ticket'''
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+        extra_kwargs = {'author': {'default': serializers.CurrentUserDefault()}}
+
+    def validate_ticket(self, value):
+        # User can send message only in his own ticket
+        # Check that the ticket in which he sends the message belongs to him:
+        # Trying to find in his tickets ticket with specified ID (PK - primary key)
+        try:
+            ticket = Ticket.objects.all().filter(author=self.context['request'].user).get(pk=value.id)
+        except Ticket.DoesNotExist:
+            raise serializers.ValidationError('Messages in this ticket can be left only by a ticket author!')
+        return value 
