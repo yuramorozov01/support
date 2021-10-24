@@ -78,7 +78,14 @@ class MessageCreateSerializer(serializers.ModelSerializer):
             ticket = Ticket.objects.all().filter(author=self.context['request'].user).get(pk=value.id)
         except Ticket.DoesNotExist:
             raise serializers.ValidationError('Messages in this ticket can be left only by a ticket author!')
-        return value 
+        return value
+
+    def validate(self, data):
+        # Check that child is in the same ticket as parent
+        if data['parent']:
+            if data['parent'].ticket != data['ticket']:
+                raise serializers.ValidationError('Child message must be in the same ticket as parent message!')
+        return data
 
 
 class MessageShortDetailsSerializer(serializers.ModelSerializer):

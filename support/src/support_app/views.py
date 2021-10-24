@@ -69,6 +69,12 @@ class MessageViewSet(viewsets.ModelViewSet):
         Delete a message.
         Only author can delete his message.
 
+    update:
+        Update a message.
+
+    partial_update:
+        Update a message.
+
     '''
 
     permission_classes = [permissions.IsAuthenticated]
@@ -80,6 +86,10 @@ class MessageViewSet(viewsets.ModelViewSet):
             return Message.objects.all().filter(author=self.request.user)
         elif self.action == 'destroy':
             return Message.objects.all().filter(author=self.request.user)
+        elif self.action == 'update':
+            return Message.objects.all().filter(author=self.request.user)
+        elif self.action == 'partial_update':
+            return Message.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -88,4 +98,8 @@ class MessageViewSet(viewsets.ModelViewSet):
             return MessageDetailsSerializer
         elif self.action == 'list':
             return MessageShortDetailsSerializer
+        elif self.action == 'update':
+            return MessageCreateSerializer
+        elif self.action == 'partial_update':
+            return MessageCreateSerializer
         
