@@ -79,3 +79,16 @@ class MessageCreateSerializer(serializers.ModelSerializer):
         except Ticket.DoesNotExist:
             raise serializers.ValidationError('Messages in this ticket can be left only by a ticket author!')
         return value 
+
+
+class MessageShortDetailsSerializer(serializers.ModelSerializer):
+    '''Serializer for a list of messages
+    This serializer uses short information about ticket (uses serializer for short information)
+    '''
+
+    ticket = TicketShortDetailsSerializer(read_only=True)
+    author = CustomUserSerializer(read_only=True)
+
+    class Meta:
+        model = Message
+        fields = '__all__'

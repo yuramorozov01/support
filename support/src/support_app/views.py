@@ -1,6 +1,6 @@
 from rest_framework import permissions, viewsets
 from .models import Message, Ticket
-from .serializers import MessageCreateSerializer, TicketCreateSerializer, TicketDetailsSerializer, TicketShortDetailsSerializer, TicketUpdateSerializer
+from .serializers import MessageCreateSerializer, MessageShortDetailsSerializer, TicketCreateSerializer, TicketDetailsSerializer, TicketShortDetailsSerializer, TicketUpdateSerializer
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -64,9 +64,12 @@ class MessageViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        pass
+        if self.action == 'list':
+            return Message.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
             return MessageCreateSerializer
+        elif self.action == 'list':
+            return MessageShortDetailsSerializer
         
