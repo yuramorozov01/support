@@ -1,6 +1,6 @@
 from rest_framework import permissions, viewsets
 from .models import Message, Ticket
-from .serializers import TicketCreateSerializer, TicketDetailsSerializer, TicketListSerializer, TicketUpdateSerializer
+from .serializers import MessageCreateSerializer, TicketCreateSerializer, TicketDetailsSerializer, TicketListSerializer, TicketUpdateSerializer
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -52,3 +52,21 @@ class TicketViewSet(viewsets.ModelViewSet):
             return TicketUpdateSerializer
         elif self.action == 'partial_update':
             return TicketUpdateSerializer
+
+
+class MessageViewSet(viewsets.ModelViewSet):
+    '''
+    create:
+        Create a new message.
+
+    '''
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        pass
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return MessageCreateSerializer
+        
