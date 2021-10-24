@@ -37,7 +37,9 @@ class TicketUpdateSerializer(serializers.ModelSerializer):
 
 
 class TicketDetailsSerializer(serializers.ModelSerializer):
-    '''Serializer for a specified ticket'''
+    '''Serializer for a specified ticket
+    This serializer provides detailed information about ticket.
+    '''
 
     status = serializers.CharField(source='get_status_display')
     author = CustomUserSerializer(read_only=True)
@@ -47,8 +49,10 @@ class TicketDetailsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TicketListSerializer(serializers.ModelSerializer):
-    '''Serializer for a list of tickets'''
+class TicketShortDetailsSerializer(serializers.ModelSerializer):
+    '''Serializer for a ticket
+    This serializer provides short necessary information about ticket.
+    '''
 
     status = serializers.CharField(source='get_status_display')
     author = CustomUserSerializer(read_only=True)

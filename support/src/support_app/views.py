@@ -1,6 +1,6 @@
 from rest_framework import permissions, viewsets
 from .models import Message, Ticket
-from .serializers import MessageCreateSerializer, TicketCreateSerializer, TicketDetailsSerializer, TicketListSerializer, TicketUpdateSerializer
+from .serializers import MessageCreateSerializer, TicketCreateSerializer, TicketDetailsSerializer, TicketShortDetailsSerializer, TicketUpdateSerializer
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -47,7 +47,7 @@ class TicketViewSet(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return TicketDetailsSerializer
         elif self.action == 'list':
-            return TicketListSerializer
+            return TicketShortDetailsSerializer
         elif self.action == 'update':
             return TicketUpdateSerializer
         elif self.action == 'partial_update':
