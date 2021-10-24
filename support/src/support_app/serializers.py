@@ -82,12 +82,36 @@ class MessageCreateSerializer(serializers.ModelSerializer):
 
 
 class MessageShortDetailsSerializer(serializers.ModelSerializer):
-    '''Serializer for a list of messages
+    '''Serializer for a message
     This serializer uses short information about ticket (uses serializer for short information)
     '''
 
     ticket = TicketShortDetailsSerializer(read_only=True)
     author = CustomUserSerializer(read_only=True)
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+
+class RecursiveMessageChildrenSerializer(serializers.Serializer):
+    '''Serializer for recursive output children of message model'''
+
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+
+class MessageDetailsSerializer(serializers.ModelSerializer):
+    '''Serializer for a message
+    This serializer provides detailed information about message
+    This serializer uses short information about ticket (uses serializer for short information)
+    "children" field - related field to parent (get all message where current message is a parent message)
+    '''
+
+    ticket = TicketShortDetailsSerializer(read_only=True)
+    author = CustomUserSerializer(read_only=True)
+    children = RecursiveMessageChildrenSerializer(read_only=True, many=True)
 
     class Meta:
         model = Message
