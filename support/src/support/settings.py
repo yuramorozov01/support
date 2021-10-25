@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
-from .config.config import KEYS
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = KEYS['MAIN']['SECRET_KEY']
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg',
-    
+
     'ticket_app',
 ]
 
@@ -83,12 +83,12 @@ WSGI_APPLICATION = 'support.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': KEYS['DATABASE']['ENGINE'],
-        'NAME': KEYS['DATABASE']['NAME'],
-        'USER': KEYS['DATABASE']['USER'],
-        'PASSWORD': KEYS['DATABASE']['PASSWORD'],
-        'HOST': KEYS['DATABASE']['HOST'],
-        'PORT': KEYS['DATABASE']['PORT'],
+        'ENGINE': config('DB_ENGINE'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
