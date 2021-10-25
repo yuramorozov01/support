@@ -31,7 +31,7 @@ class TicketViewSet(viewsets.ModelViewSet):
         Author can change all exclude status.
     '''
 
-    queryset = Message.objects.all().filter(author=self.request.user)
+    queryset = Ticket.objects.all().filter(author=self.request.user)
     permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_class(self):
