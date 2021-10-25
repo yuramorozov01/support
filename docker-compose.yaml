@@ -6,8 +6,6 @@ services:
     restart: always
 
   support:
-    env_file:
-      - ./support/src/.env
     restart: always
     build:
       context: ./support
@@ -24,8 +22,6 @@ services:
         condition: service_healthy
 
   worker:
-    env_file:
-      - ./support/src/.env
     restart: always
     build:
       context: ./support
@@ -35,8 +31,6 @@ services:
         condition: service_healthy
 
   db:
-    env_file:
-      - ./support/src/.env
     restart: always
     image: postgres
     ports:
