@@ -1,6 +1,10 @@
 from rest_framework import permissions, viewsets
+
 from .models import Message, Ticket
-from .serializers import TicketCreateSerializer, TicketDetailsSerializer, TicketListSerializer, TicketUpdateSerializer
+from .serializers import (MessageCreateSerializer, MessageDetailsSerializer,
+                          MessageShortDetailsSerializer,
+                          TicketCreateSerializer, TicketDetailsSerializer,
+                          TicketShortDetailsSerializer, TicketUpdateSerializer)
 
 
 class TicketViewSet(viewsets.ModelViewSet):
@@ -27,19 +31,8 @@ class TicketViewSet(viewsets.ModelViewSet):
         Author can change all exclude status.
     '''
 
+    queryset = Message.objects.all().filter(author=self.request.user)
     permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        if self.action == 'retrieve':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'list':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'destroy':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'update':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'partial_update':
-            return Ticket.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -47,8 +40,47 @@ class TicketViewSet(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return TicketDetailsSerializer
         elif self.action == 'list':
-            return TicketListSerializer
+            return TicketShortDetailsSerializer
         elif self.action == 'update':
             return TicketUpdateSerializer
         elif self.action == 'partial_update':
             return TicketUpdateSerializer
+
+
+class MessageViewSet(viewsets.ModelViewSet):
+    '''
+    create:
+        Create a new message.
+
+    retrieve:
+        Return the specified message.
+
+    list:
+        Return a list of all user's message.
+
+    destroy:
+        Delete a message.
+        Only author can delete his message.
+
+    update:
+        Update a message.
+
+    partial_update:
+        Update a message.
+
+    '''
+
+    queryset = Message.objects.all().filter(author=self.request.user)
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return MessageCreateSerializer
+        elif self.action == 'retrieve':
+            return MessageDetailsSerializer
+        elif self.action == 'list':
+            return MessageShortDetailsSerializer
+        elif self.action == 'update':
+            return MessageCreateSerializer
+        elif self.action == 'partial_update':
+            return MessageCreateSerializer
