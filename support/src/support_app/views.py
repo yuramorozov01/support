@@ -31,19 +31,8 @@ class TicketViewSet(viewsets.ModelViewSet):
         Author can change all exclude status.
     '''
 
+    queryset = Message.objects.all().filter(author=self.request.user)
     permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        if self.action == 'retrieve':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'list':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'destroy':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'update':
-            return Ticket.objects.all().filter(author=self.request.user)
-        elif self.action == 'partial_update':
-            return Ticket.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -81,19 +70,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     '''
 
+    queryset = Message.objects.all().filter(author=self.request.user)
     permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        if self.action == 'retrieve':
-            return Message.objects.all().filter(author=self.request.user)
-        elif self.action == 'list':
-            return Message.objects.all().filter(author=self.request.user)
-        elif self.action == 'destroy':
-            return Message.objects.all().filter(author=self.request.user)
-        elif self.action == 'update':
-            return Message.objects.all().filter(author=self.request.user)
-        elif self.action == 'partial_update':
-            return Message.objects.all().filter(author=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
