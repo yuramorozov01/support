@@ -27,7 +27,9 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     partial_update:
         Update a message.
-
+    
+    Users with permission 'message_app.can_message_in_different_tickets' can send messages
+    in different tickets (user is not an author of ticket)
     '''
 
     permission_classes = [permissions.IsAuthenticated]
@@ -37,7 +39,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'create':
-            if self.request.user.has_perm('ticket_app.can_message_in_different_tickets'):
+            if self.request.user.has_perm('message_app.can_message_in_different_tickets'):
                 return SupportMessageCreateSerializer
             return MessageCreateSerializer
         elif self.action == 'retrieve':

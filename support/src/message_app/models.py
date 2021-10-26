@@ -28,3 +28,6 @@ class Message(models.Model):
         ordering = ['created_at']
         verbose_name = 'Message'
         verbose_name_plural = 'Messages'
+        permissions = [
+            ('can_message_in_different_tickets', 'Can send message in different tickets')
+        ]

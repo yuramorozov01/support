@@ -29,13 +29,20 @@ class TicketViewSet(viewsets.ModelViewSet):
     partial_update:
         Update a ticket.
         Author can change all exclude status.
+
+    Users with permission 'ticket_app.can_view_all_tickets' can view all tickets
+    Users with permission 'ticket_app.can_change_status' can modify only a status
     '''
 
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.has_perm('ticket_app.can_view_all_tickets'):
-            return Ticket.objects.all()
+        if self.action == 'list' or self.action == 'retrieve':
+            if self.request.user.has_perm('ticket_app.can_view_all_tickets'):
+                return Ticket.objects.all()
+        if self.action == 'update' or self.action == 'partial_update':
+            if self.request.user.has_perm('ticket_app.can_change_status'):
+                return Ticket.objects.all()
 
         return Ticket.objects.all().filter(author=self.request.user)
 

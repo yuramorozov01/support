@@ -32,5 +32,4 @@ class Ticket(models.Model):
         permissions = [
             ('can_view_all_tickets', 'Can view all tickets'),
             ('can_change_status', 'Can change status'),
-            ('can_message_in_different_tickets', 'Can send message in different tickets')
         ]
