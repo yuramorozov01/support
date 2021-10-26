@@ -19,6 +19,7 @@ class AbstractTicketSerializerr(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
+        fields = ('__all__')
         read_only_fields = ['title', 'text', 'author', 'created_at']
 
 
@@ -33,6 +34,7 @@ class SupportMessageCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = '__all__'
+        extra_kwargs = {'author': {'default': serializers.CurrentUserDefault()}}
 
     def validate(self, data):
         # Check that child is in the same ticket as parent
