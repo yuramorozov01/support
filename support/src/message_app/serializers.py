@@ -35,7 +35,7 @@ class MessageCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         # Check that child is in the same ticket as parent
         if data.get('parent'):
-            if data['parent'].ticket != data['ticket']:
+            if data.get('parent').ticket != data.get('ticket'):
                 raise serializers.ValidationError('Child message must be in the same ticket as parent message!')
         return data
 
