@@ -25,12 +25,4 @@ urlpatterns = [
         'put': 'update', 
         'patch': 'partial_update'
     })),
-
-    path('message/', views.MessageViewSet.as_view({'get': 'list', 'post': 'create'})),
-    path('message/<int:pk>/', views.MessageViewSet.as_view({
-        'get': 'retrieve', 
-        'delete': 'destroy', 
-        'put': 'update', 
-        'patch': 'partial_update'
-    })),
 ]
