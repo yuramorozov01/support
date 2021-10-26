@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'ticket_app',
+    'message_app',
+    'support_app',
 ]
 
 MIDDLEWARE = [

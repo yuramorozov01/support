@@ -13,17 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 
-from .yasg import urlpatterns as doc_urls
+from . import views
 
 urlpatterns = [
-    path('api/v1/', include('ticket_app.urls')),
-    path('api/v1/', include('message_app.urls')),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
-    path('admin/', admin.site.urls),
+    path('message/', views.MessageViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('message/<int:pk>/', views.MessageViewSet.as_view({
+        'get': 'retrieve', 
+        'delete': 'destroy', 
+        'put': 'update', 
+        'patch': 'partial_update'
+    })),
 ]
-
-urlpatterns += doc_urls
