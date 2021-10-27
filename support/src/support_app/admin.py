@@ -1,7 +1,7 @@
-from django.contrib import admin
 from django.contrib.auth.models import Group, Permission
 
 # Register your models here.
+
 
 def add_group_permissions():
     # Support group
@@ -15,5 +15,6 @@ def add_group_permissions():
 
         can_message_in_different_tickets = Permission.objects.get(codename='can_message_in_different_tickets')
         group.permissions.add(can_message_in_different_tickets)
+
 
 add_group_permissions()

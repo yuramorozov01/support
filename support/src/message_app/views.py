@@ -1,5 +1,4 @@
 from rest_framework import permissions, viewsets
-
 from support_app.serializers import SupportMessageCreateSerializer
 
 from .models import Message
@@ -27,7 +26,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     partial_update:
         Update a message.
-    
+
     Users with permission 'message_app.can_message_in_different_tickets' can send messages
     in different tickets (user is not an author of ticket)
     '''

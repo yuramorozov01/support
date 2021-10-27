@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
-from rest_framework import serializers
-
-from ticket_app.models import Ticket
 from message_app.models import Message
+from rest_framework import serializers
+from ticket_app.models import Ticket
 
 from .tasks import send_new_message_email
 
@@ -16,7 +15,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class AbstractTicketSerializerr(serializers.ModelSerializer):
-    
+
     author = CustomUserSerializer(read_only=True)
 
     class Meta:

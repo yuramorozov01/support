@@ -1,5 +1,4 @@
 from rest_framework import permissions, viewsets
-
 from support_app.serializers import SupportTicketUpdateStatusSerializer
 
 from .models import Ticket

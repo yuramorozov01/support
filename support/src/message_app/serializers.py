@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-
 from ticket_app.models import Ticket
 
 from .models import Message
@@ -81,7 +80,6 @@ class MessageDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = '__all__'
-
 
         # Children messages output ...
         # ... with their parent messages at the same nesting level 

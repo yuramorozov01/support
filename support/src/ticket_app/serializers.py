@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
-from rest_framework import serializers
-
 from message_app.serializers import MessageDetailsSerializer
+from rest_framework import serializers
 
 from .models import Ticket
 
