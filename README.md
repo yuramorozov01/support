@@ -106,6 +106,7 @@ To run this program you have to follow this steps:
 1. Clone the repo
    ```sh
    git clone https://github.com/yuramorozov01/support.git
+   git checkout dev
    cd support/
    ```
 2. Create .env file in the folder src/ near manage.py
