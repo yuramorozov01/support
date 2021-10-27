@@ -37,14 +37,21 @@ class TicketViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
+        queryset = Ticket.objects.all()
+        status = self.request.query_params.get('status')
+        if status:
+            # If passed not a number - ignore and then return tickets without a filter
+            try:
+                queryset = queryset.filter(status=status)
+            except ValueError:
+                pass
         if self.action == 'list' or self.action == 'retrieve':
             if self.request.user.has_perm('ticket_app.can_view_all_tickets'):
-                return Ticket.objects.all()
+                return queryset
         if self.action == 'update' or self.action == 'partial_update':
             if self.request.user.has_perm('ticket_app.can_change_status'):
-                return Ticket.objects.all()
-
-        return Ticket.objects.all().filter(author=self.request.user)
+                return queryset
+        return queryset.filter(author=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
