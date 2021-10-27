@@ -1,9 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from message_app.models import Message
-from message_app.views import MessageViewSet
-from ticket_app.models import Ticket
-from ticket_app.views import TicketViewSet
+
 
 class MessageViewSetTestCase(TestCase):
     def setUp(self):
@@ -14,15 +11,23 @@ class MessageViewSetTestCase(TestCase):
         test_user2.save()
 
     def test_create_message_in_own_ticket(self):
-        login_resp = self.client.post('/auth/jwt/create/', {'username':'test1', 'password': 'qqwwee112233'})
+        login_resp = self.client.post('/auth/jwt/create/', {'username': 'test1', 'password': 'qqwwee112233'})
         jwt = login_resp.json()['access']
 
-        resp = self.client.post('/api/v1/ticket/', {'title': 'Test title', 'text': 'this is test text'}, HTTP_AUTHORIZATION='JWT ' + jwt)
+        resp = self.client.post(
+            '/api/v1/ticket/', 
+            {'title': 'Test title', 'text': 'this is test text'}, 
+            HTTP_AUTHORIZATION='JWT ' + jwt
+        )
         resp_data = resp.json()
 
         ticket_id = int(resp_data['id'])
 
-        resp = self.client.post('/api/v1/message/', {'ticket': ticket_id, 'text': 'test message'}, HTTP_AUTHORIZATION='JWT ' + jwt)
+        resp = self.client.post(
+            '/api/v1/message/', 
+            {'ticket': ticket_id, 'text': 'test message'}, 
+            HTTP_AUTHORIZATION='JWT ' + jwt
+        )
         resp_data = resp.json()
 
         self.assertTrue('ticket' in resp_data)
@@ -31,18 +36,26 @@ class MessageViewSetTestCase(TestCase):
         self.assertEqual(resp_data['text'], 'test message')
 
     def test_create_message_in_not_own_ticket(self):
-        login_resp = self.client.post('/auth/jwt/create/', {'username':'test1', 'password': 'qqwwee112233'})
+        login_resp = self.client.post('/auth/jwt/create/', {'username': 'test1', 'password': 'qqwwee112233'})
         jwt = login_resp.json()['access']
 
-        resp = self.client.post('/api/v1/ticket/', {'title': 'Test title', 'text': 'this is test text'}, HTTP_AUTHORIZATION='JWT ' + jwt)
+        resp = self.client.post(
+            '/api/v1/ticket/', 
+            {'title': 'Test title', 'text': 'this is test text'}, 
+            HTTP_AUTHORIZATION='JWT ' + jwt
+        )
         resp_data = resp.json()
 
         ticket_id = int(resp_data['id'])
-        
-        login_resp = self.client.post('/auth/jwt/create/', {'username':'test2', 'password': 'qqwwee112233'})
+
+        login_resp = self.client.post('/auth/jwt/create/', {'username': 'test2', 'password': 'qqwwee112233'})
         jwt = login_resp.json()['access']
 
-        resp = self.client.post('/api/v1/message/', {'ticket': ticket_id, 'text': 'test message'}, HTTP_AUTHORIZATION='JWT ' + jwt)
+        resp = self.client.post(
+            '/api/v1/message/', 
+            {'ticket': ticket_id, 'text': 'test message'}, 
+            HTTP_AUTHORIZATION='JWT ' + jwt
+        )
         resp_data = resp.json()
 
         self.assertTrue('ticket' in resp_data)

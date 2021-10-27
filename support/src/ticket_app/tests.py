@@ -1,9 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from message_app.models import Message
-from message_app.views import MessageViewSet
-from ticket_app.models import Ticket
-from ticket_app.views import TicketViewSet
+
 
 class TicketViewSetTestCase(TestCase):
     def setUp(self):
@@ -15,7 +12,7 @@ class TicketViewSetTestCase(TestCase):
         self.assertEqual(resp.status_code, 401)
 
     def test_create_ticket_without_title(self):
-        login_resp = self.client.post('/auth/jwt/create/', {'username':'test1', 'password': 'qqwwee112233'})
+        login_resp = self.client.post('/auth/jwt/create/', {'username': 'test1', 'password': 'qqwwee112233'})
         jwt = login_resp.json()['access']
 
         resp = self.client.post('/api/v1/ticket/', {'text': 'this is test text'}, HTTP_AUTHORIZATION='JWT ' + jwt)
@@ -26,10 +23,14 @@ class TicketViewSetTestCase(TestCase):
         self.assertEqual(resp_data['title'][0], 'This field is required.')
 
     def test_create_ticket(self):
-        login_resp = self.client.post('/auth/jwt/create/', {'username':'test1', 'password': 'qqwwee112233'})
+        login_resp = self.client.post('/auth/jwt/create/', {'username': 'test1', 'password': 'qqwwee112233'})
         jwt = login_resp.json()['access']
 
-        resp = self.client.post('/api/v1/ticket/', {'title': 'Test title', 'text': 'this is test text'}, HTTP_AUTHORIZATION='JWT ' + jwt)
+        resp = self.client.post(
+            '/api/v1/ticket/', 
+            {'title': 'Test title', 'text': 'this is test text'}, 
+            HTTP_AUTHORIZATION='JWT ' + jwt
+        )
         resp_data = resp.json()
 
         self.assertEqual(resp.status_code, 201)
