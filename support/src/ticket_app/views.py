@@ -50,7 +50,7 @@ class TicketViewSet(viewsets.ModelViewSet):
         if self.action == 'update' or self.action == 'partial_update':
             if self.request.user.has_perm('ticket_app.can_change_status'):
                 return queryset
-        return queryset.filter(author=self.request.user)
+        return queryset.filter(author=self.request.user.id)
 
     def get_serializer_class(self):
         if self.action == 'create':

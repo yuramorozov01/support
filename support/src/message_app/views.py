@@ -34,7 +34,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Message.objects.all().filter(author=self.request.user)
+        return Message.objects.all().filter(author=self.request.user.id)
 
     def get_serializer_class(self):
         if self.action == 'create':

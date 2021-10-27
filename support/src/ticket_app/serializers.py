@@ -1,16 +1,9 @@
 from django.contrib.auth.models import User
 from message_app.serializers import MessageDetailsSerializer
 from rest_framework import serializers
+from support_app.serializers import CustomUserSerializer
 
 from .models import Ticket
-
-
-class CustomUserSerializer(serializers.ModelSerializer):
-    '''Serializer for an user'''
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
 
 
 class TicketCreateSerializer(serializers.ModelSerializer):
