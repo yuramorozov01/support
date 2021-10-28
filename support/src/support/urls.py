@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
-
-from .yasg import urlpatterns as doc_urls
+from support.yasg import urlpatterns as doc_urls
 
 urlpatterns = [
     path('api/v1/', include('ticket_app.urls')),

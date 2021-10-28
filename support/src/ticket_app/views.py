@@ -1,9 +1,10 @@
 from rest_framework import permissions, viewsets
 from support_app.serializers import SupportTicketUpdateStatusSerializer
-
-from .models import Ticket
-from .serializers import (TicketCreateSerializer, TicketDetailsSerializer,
-                          TicketShortDetailsSerializer, TicketUpdateSerializer)
+from ticket_app.models import Ticket
+from ticket_app.serializers import (TicketCreateSerializer,
+                                    TicketDetailsSerializer,
+                                    TicketShortDetailsSerializer,
+                                    TicketUpdateSerializer)
 
 
 class TicketViewSet(viewsets.ModelViewSet):

@@ -1,5 +1,4 @@
 from django.contrib import admin
-
-from .models import Ticket
+from ticket_app.models import Ticket
 
 admin.site.register(Ticket)

@@ -1,9 +1,9 @@
+from message_app.models import Message
+from message_app.serializers import (MessageCreateSerializer,
+                                     MessageDetailsSerializer,
+                                     MessageShortDetailsSerializer)
 from rest_framework import permissions, viewsets
 from support_app.serializers import SupportMessageCreateSerializer
-
-from .models import Message
-from .serializers import (MessageCreateSerializer, MessageDetailsSerializer,
-                          MessageShortDetailsSerializer)
 
 
 class MessageViewSet(viewsets.ModelViewSet):

@@ -1,6 +1,5 @@
 from django.urls import path
-
-from . import views
+from message_app import views
 
 urlpatterns = [
     path('message/', views.MessageViewSet.as_view({'get': 'list', 'post': 'create'})),
