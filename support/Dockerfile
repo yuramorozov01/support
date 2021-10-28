@@ -4,6 +4,8 @@ RUN apt-get upgrade -y
 
 WORKDIR /app
 
+COPY ./support_run.bash ./
+
 COPY ./requirements.txt ./
 RUN pip install -r requirements.txt
 COPY ./src ./src
