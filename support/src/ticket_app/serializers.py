@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from message_app.serializers import MessageDetailsSerializer
 from rest_framework import serializers
 from support_app.serializers import CustomUserSerializer
-
-from support_app.models import Ticket
+from ticket_app.models import Ticket
 
 
 class TicketCreateSerializer(serializers.ModelSerializer):
