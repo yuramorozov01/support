@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from ticket_app.choices import StatusChoices
 
 
 class Ticket(models.Model):
@@ -8,17 +9,8 @@ class Ticket(models.Model):
     Ticket status can be changed only by a support user.
     '''
 
-    OPEN_STATUS = 1
-    CLOSED_STATUS = 2
-    FREEZED_STATUS = 3
-    STATUS_CHOICES = (
-        (OPEN_STATUS, 'Open'),
-        (CLOSED_STATUS, 'Closed'),
-        (FREEZED_STATUS, 'Freezed'),
-    )
-
     title = models.CharField('Title', max_length=128)
-    status = models.IntegerField(choices=STATUS_CHOICES, default=OPEN_STATUS)
+    status = models.IntegerField(choices=StatusChoices.choices, default=StatusChoices.OPEN)
     text = models.TextField('Question', max_length=8192)
     author = models.ForeignKey(User, verbose_name='Author', on_delete=models.CASCADE, related_name='tickets')
     created_at = models.DateTimeField('Creation time', auto_now_add=True)
