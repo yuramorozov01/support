@@ -1,4 +1,4 @@
-from django.contrib.auth.models import get_user_model
+from django.contrib.auth import get_user_model
 from message_app.models import Message
 from rest_framework import serializers
 from support_app.tasks import send_new_message_email
