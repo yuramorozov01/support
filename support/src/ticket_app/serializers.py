@@ -3,7 +3,7 @@ from message_app.serializers import MessageDetailsSerializer
 from rest_framework import serializers
 from support_app.serializers import CustomUserSerializer
 
-from .models import Ticket
+from support_app.models import Ticket
 
 
 class TicketCreateSerializer(serializers.ModelSerializer):

@@ -3,7 +3,7 @@ from message_app.models import Message
 from rest_framework import serializers
 from ticket_app.models import Ticket
 
-from .tasks import send_new_message_email
+from support_app.tasks import send_new_message_email
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
