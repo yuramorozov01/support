@@ -1,5 +1,5 @@
 from django.urls import path
-from support_app import views
+from ticket_app import views
 
 urlpatterns = [
     path('ticket/', views.TicketViewSet.as_view({'get': 'list', 'post': 'create'})),
