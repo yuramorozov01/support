@@ -7,10 +7,12 @@ from ticket_app.models import Ticket
 class MessageCreateSerializer(serializers.ModelSerializer):
     '''Serializer for creating ticket'''
 
+    author = CustomUserSerializer(read_only=True)
+
     class Meta:
         model = Message
         fields = '__all__'
-        extra_kwargs = {'author': {'default': serializers.CurrentUserDefault()}}
+        read_only_fields = ['created_at']
 
     def validate_ticket(self, value):
         # User can send message only in his own ticket

@@ -7,10 +7,12 @@ from ticket_app.models import Ticket
 class TicketCreateSerializer(serializers.ModelSerializer):
     '''Serializer for creating ticket'''
 
+    author = CustomUserSerializer(read_only=True)
+
     class Meta:
         model = Ticket
         fields = '__all__'
-        extra_kwargs = {'author': {'default': serializers.CurrentUserDefault()}}
+        read_only_fields = ['status', 'created_at']
 
 
 class TicketUpdateSerializer(serializers.ModelSerializer):
@@ -21,7 +23,7 @@ class TicketUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
-        extra_kwargs = {'author': {'default': serializers.CurrentUserDefault()}}
+        read_only_fields = ['author', 'created_at']
 
     def validate_status(self, value):
         if self.instance and value != self.instance.status:

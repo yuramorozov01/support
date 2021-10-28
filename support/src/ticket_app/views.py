@@ -45,7 +45,7 @@ class TicketViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(status=status)
             except ValueError:
                 pass
-                
+
         if self.action == 'list' or self.action == 'retrieve':
             if self.request.user.has_perm('ticket_app.can_view_all_tickets'):
                 return queryset
@@ -72,3 +72,6 @@ class TicketViewSet(viewsets.ModelViewSet):
             serializer_class = SupportTicketUpdateStatusSerializer
 
         return serializer_class
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)

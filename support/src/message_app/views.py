@@ -45,8 +45,11 @@ class MessageViewSet(viewsets.ModelViewSet):
             'partial_update': MessageCreateSerializer,
         }
         serializer_class = serializers_dict.get(self.action)
-        
+
         if (self.action == 'create') and self.request.user.has_perm('message_app.can_message_in_different_tickets'):
             serializer_class = SupportMessageCreateSerializer
 
         return serializer_class
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)

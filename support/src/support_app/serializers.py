@@ -31,10 +31,12 @@ class SupportTicketUpdateStatusSerializer(AbstractTicketSerializerr):
 class SupportMessageCreateSerializer(serializers.ModelSerializer):
     '''Serializer to create messages in diffrenets ticket by a support'''
 
+    author = CustomUserSerializer(read_only=True)
+
     class Meta:
         model = Message
         fields = '__all__'
-        extra_kwargs = {'author': {'default': serializers.CurrentUserDefault()}}
+        read_only_fields = ['created_at']
 
     def validate(self, data):
         # Check that child is in the same ticket as parent
@@ -44,10 +46,7 @@ class SupportMessageCreateSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        try:
-            ticket = Ticket.objects.get(pk=validated_data.get('ticket').id)
-            if ticket.author.email:
-                send_new_message_email.delay(ticket.author.email, ticket.title, validated_data.get('text'))
-        except Ticket.DoesNotExist:
-            raise serializers.ValidationError('Messages in this ticket can be left only by a ticket author!')
+        ticket = Ticket.objects.get(pk=validated_data.get('ticket').id)
+        if ticket.author.email:
+            send_new_message_email.delay(ticket.author.email, ticket.title, validated_data.get('text'))
         return super(SupportMessageCreateSerializer, self).create(validated_data)
