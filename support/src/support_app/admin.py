@@ -1,7 +1,5 @@
 from django.contrib.auth.models import Group, Permission
 
-# Register your models here.
-
 
 def add_group_permissions():
     # Support group
