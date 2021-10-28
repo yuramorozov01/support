@@ -1,12 +1,10 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from message_app import views
 
+router = DefaultRouter()
+router.register(r'message', views.MessageViewSet, basename='Message')
+
 urlpatterns = [
-    path('message/', views.MessageViewSet.as_view({'get': 'list', 'post': 'create'})),
-    path('message/<int:pk>/', views.MessageViewSet.as_view({
-        'get': 'retrieve', 
-        'delete': 'destroy', 
-        'put': 'update', 
-        'patch': 'partial_update'
-    })),
+    path('', include(router.urls)),
 ]
