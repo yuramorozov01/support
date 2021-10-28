@@ -37,15 +37,16 @@ class MessageViewSet(viewsets.ModelViewSet):
         return Message.objects.all().filter(author=self.request.user.id)
 
     def get_serializer_class(self):
-        if self.action == 'create':
-            if self.request.user.has_perm('message_app.can_message_in_different_tickets'):
-                return SupportMessageCreateSerializer
-            return MessageCreateSerializer
-        elif self.action == 'retrieve':
-            return MessageDetailsSerializer
-        elif self.action == 'list':
-            return MessageShortDetailsSerializer
-        elif self.action == 'update':
-            return MessageCreateSerializer
-        elif self.action == 'partial_update':
-            return MessageCreateSerializer
+        serializers_dict = {
+            'create': MessageCreateSerializer,
+            'retrieve': MessageDetailsSerializer,
+            'list': MessageShortDetailsSerializer,
+            'update': MessageCreateSerializer,
+            'partial_update': MessageCreateSerializer,
+        }
+        serializer_class = serializers_dict.get(self.action)
+        
+        if (self.action == 'create') and self.request.user.has_perm('message_app.can_message_in_different_tickets'):
+            serializer_class = SupportMessageCreateSerializer
+
+        return serializer_class

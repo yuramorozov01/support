@@ -45,26 +45,30 @@ class TicketViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(status=status)
             except ValueError:
                 pass
+                
         if self.action == 'list' or self.action == 'retrieve':
             if self.request.user.has_perm('ticket_app.can_view_all_tickets'):
                 return queryset
+
         if self.action == 'update' or self.action == 'partial_update':
             if self.request.user.has_perm('ticket_app.can_change_status'):
                 return queryset
+
         return queryset.filter(author=self.request.user.id)
 
     def get_serializer_class(self):
-        if self.action == 'create':
-            return TicketCreateSerializer
-        elif self.action == 'retrieve':
-            return TicketDetailsSerializer
-        elif self.action == 'list':
-            return TicketShortDetailsSerializer
-        elif self.action == 'update':
-            if self.request.user.has_perm('ticket_app.can_change_status'):
-                return SupportTicketUpdateStatusSerializer
-            return TicketUpdateSerializer
-        elif self.action == 'partial_update':
-            if self.request.user.has_perm('ticket_app.can_change_status'):
-                return SupportTicketUpdateStatusSerializer
-            return TicketUpdateSerializer
+        serializers_dict = {
+            'create': TicketCreateSerializer,
+            'retrieve': TicketDetailsSerializer,
+            'list': TicketShortDetailsSerializer,
+            'update': TicketUpdateSerializer,
+            'partial_update': TicketUpdateSerializer,
+        }
+        serializer_class = serializers_dict.get(self.action)
+
+        if (self.action == 'update') and self.request.user.has_perm('ticket_app.can_change_status'):
+            serializer_class = SupportTicketUpdateStatusSerializer
+        elif (self.action == 'partial_update') and (self.request.user.has_perm('ticket_app.can_change_status')):
+            serializer_class = SupportTicketUpdateStatusSerializer
+
+        return serializer_class
