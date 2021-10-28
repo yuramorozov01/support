@@ -1,13 +1,13 @@
+from django.contrib.auth.models import get_user_model
 from django.test import TestCase
-from django.contrib.auth.models import User
 
 
 class MessageViewSetTestCase(TestCase):
     def setUp(self):
-        test_user1 = User.objects.create_user(username='test1', password='qqwwee112233')
+        test_user1 = get_user_model().objects.create_user(username='test1', password='qqwwee112233')
         test_user1.save()
 
-        test_user2 = User.objects.create_user(username='test2', password='qqwwee112233')
+        test_user2 = get_user_model().objects.create_user(username='test2', password='qqwwee112233')
         test_user2.save()
 
     def test_create_message_in_own_ticket(self):

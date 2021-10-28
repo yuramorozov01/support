@@ -1,16 +1,15 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import get_user_model
 from message_app.models import Message
 from rest_framework import serializers
-from ticket_app.models import Ticket
-
 from support_app.tasks import send_new_message_email
+from ticket_app.models import Ticket
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     '''Serializer for an user'''
 
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ['id', 'username', 'email']
 
 
@@ -47,11 +46,8 @@ class SupportMessageCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         try:
             ticket = Ticket.objects.get(pk=validated_data.get('ticket').id)
-            try:
-                if ticket.author.email:
-                    send_new_message_email.delay(ticket.author.email, ticket.title, validated_data.get('text'))
-            except User.DoesNotExist:
-                raise serializers.ValidationError('User not found!')
+            if ticket.author.email:
+                send_new_message_email.delay(ticket.author.email, ticket.title, validated_data.get('text'))
         except Ticket.DoesNotExist:
             raise serializers.ValidationError('Messages in this ticket can be left only by a ticket author!')
         return super(SupportMessageCreateSerializer, self).create(validated_data)

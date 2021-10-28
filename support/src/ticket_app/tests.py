@@ -1,10 +1,10 @@
+from django.contrib.auth.models import get_user_model
 from django.test import TestCase
-from django.contrib.auth.models import User
 
 
 class TicketViewSetTestCase(TestCase):
     def setUp(self):
-        test_user1 = User.objects.create_user(username='test1', password='qqwwee112233')
+        test_user1 = get_user_model().objects.create_user(username='test1', password='qqwwee112233')
         test_user1.save()
 
     def test_get_tickets_without_login(self):
@@ -36,4 +36,4 @@ class TicketViewSetTestCase(TestCase):
         self.assertEqual(resp.status_code, 201)
         self.assertEqual(resp_data['title'], 'Test title')
         self.assertEqual(resp_data['text'], 'this is test text')
-        self.assertEqual(resp_data['status'], 1)
+        self.assertEqual(resp_data['status'], 0)

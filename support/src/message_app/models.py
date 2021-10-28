@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import get_user_model
 from django.db import models
 
 
@@ -17,7 +17,12 @@ class Message(models.Model):
     )
     text = models.TextField('Message', max_length=8192)
     created_at = models.DateTimeField('Message time', auto_now_add=True)
-    author = models.ForeignKey(User, verbose_name='Author', on_delete=models.CASCADE, related_name='messages')
+    author = models.ForeignKey(
+        get_user_model(), 
+        verbose_name='Author', 
+        on_delete=models.CASCADE, 
+        related_name='messages'
+    )
     parent = models.ForeignKey(
         'self', 
         verbose_name='parent', 
